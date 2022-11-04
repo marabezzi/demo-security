@@ -69,7 +69,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+		<!--  Spring Boot Security -->
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!--  -->
+       
+		<!-- Corrige o erro de groovy -->
 	    <dependency>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-groovy-dsl</artifactId>
@@ -85,18 +92,17 @@
             </exclusion>
         </exclusions>
     </dependency>
-
     <dependency>
         <groupId>org.codehaus.groovy</groupId>
         <artifactId>groovy</artifactId>
         <version>3.0.3</version>
     </dependency>
-
     <dependency>
         <groupId>org.codehaus.groovy</groupId>
         <artifactId>groovy-sql</artifactId>
         <version>3.0.3</version>
     </dependency>
+    <!--  -->
 	</dependencies>
 
 	<build>
