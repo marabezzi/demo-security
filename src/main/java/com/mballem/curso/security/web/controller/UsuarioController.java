@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mballem.curso.security.domain.Perfil;
+import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.UsuarioService;
 
@@ -72,5 +73,24 @@ public class UsuarioController {
     public ModelAndView preEditarCredenciais(@PathVariable("id") Long id){
     
     	return new ModelAndView("usuario/cadastro", "usuario", service.buscarPorId(id));
+    }
+    
+    // pré edicao de cadastro de usuário
+    @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
+    public ModelAndView preEditarCadastroDadosPessoais(@PathVariable("id") Long usuarioId,
+    												   @PathVariable("perfis") Long[] perfisId) {
+    	
+    	Usuario us = new Usuario();
+    	
+    	if (us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod())) &&
+    			!us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod())) ) {
+    		
+    		return new  ModelAndView("usuario/cadastro", "usuario", us);
+    	} else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
+    		
+    		return new  ModelAndView("especialidade/especialidade");
+    	}
+    	
+    	return new ModelAndView("redirect:/u/lista");
     }
 }
