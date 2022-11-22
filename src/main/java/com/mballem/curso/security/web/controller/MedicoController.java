@@ -26,7 +26,11 @@ public class MedicoController {
 	private UsuarioService usuarioService;
 
 	@GetMapping({"/dados"})
-	public String abrirPorMedico(Medico medico, ModelMap model) {
+	public String abrirPorMedico(Medico medico, ModelMap model, @AuthenticationPrincipal User user) {
+		if(medico.hasNotId()) {
+			medico = service.buscarPorEmail(user.getUsername());
+			model.addAttribute("medico", medico);
+		}
 		return "medico/cadastro";
 	}
 	
