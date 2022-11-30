@@ -31,34 +31,34 @@ public class EspecialidadeController {
 	}
 	
 
-	@PostMapping("/salvar")
+	@PostMapping({"/salvar"})
 	public String salvar(Especialidade especialidade, RedirectAttributes attr) {
 			service.salvar(especialidade);
 			attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
 			return "redirect:/especialidades";
 	}
 	
-	@GetMapping("datatables/server")
+	@GetMapping({"datatables/server"})
 	public ResponseEntity<?> getEspecialidades(HttpServletRequest request) {
 			
 		return ResponseEntity.ok(service.buscarEspecialidades(request)); 	
 	}	
 	
 	
-	@GetMapping("/editar/{id}")
+	@GetMapping({"/editar/{id}"})
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
 		model.addAttribute("especialidade", service.buscarEspecialidades(id));
 		return "especialidade/especialidade";
 	}
 	
-	@GetMapping("/excluir/{id}")
+	@GetMapping({"/excluir/{id}"})
 	public String abrir(@PathVariable("id") Long id, RedirectAttributes attr) {
 		service.remover(id);
 		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso.");
 		return "redirect:/especialidades";
 	}
 	
-	@GetMapping("/titulo")
+	@GetMapping({"/titulo"})
 	public ResponseEntity<?> getEspecialidadesPorTermo(@RequestParam("termo") String termo) {
 		List<String> especialidades = service.buscarEspecialidadeByTermo(termo);	
 		return ResponseEntity.ok(especialidades); 	
