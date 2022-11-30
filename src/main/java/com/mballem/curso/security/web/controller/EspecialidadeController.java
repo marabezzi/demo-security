@@ -69,5 +69,4 @@ public class EspecialidadeController {
 		return ResponseEntity.ok(especialidades); 	
 	}	
 	
-	
 }
