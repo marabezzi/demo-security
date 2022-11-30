@@ -24,10 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
+		// acessos liberados
 		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
 		.antMatchers("/","/home").permitAll()
 		
 		// acessos privados admin
+		.antMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(MEDICO)
 		.antMatchers("/u/**").hasAuthority(ADMIN)
 		
 		// acessos privados medicos
