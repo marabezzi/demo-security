@@ -28,6 +28,7 @@ import com.mballem.curso.security.service.UsuarioService;
 
 
 
+@SuppressWarnings("deprecation")
 @Controller
 @RequestMapping("u")
 public class UsuarioController {
