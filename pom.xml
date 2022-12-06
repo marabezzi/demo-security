@@ -76,6 +76,13 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<!-- -->
+		
+			<!-- Spring Boot Email -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- -->
 
 		<!-- Corrige o erro de groovy -->
 		<dependency>
