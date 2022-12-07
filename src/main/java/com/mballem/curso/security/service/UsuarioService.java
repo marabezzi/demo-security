@@ -114,7 +114,7 @@ public class UsuarioService implements UserDetailsService {
 		usuario.addPerfil(PerfilTipo.PACIENTE);
 		repository.save(usuario);
 		
-		emailDEConfirmacaoDeCadastro(usuario.getEmail());
+		emailDeConfirmacaoDeCadastro(usuario.getEmail());
 	}
 	
 	@Transactional(readOnly = true)
@@ -122,12 +122,12 @@ public class UsuarioService implements UserDetailsService {
 		return repository.findByEmailAndAtivo(email);
 	}
 	
-	public void emailDEConfirmacaoDeCadastro(String email) throws MessagingException {
+	public void emailDeConfirmacaoDeCadastro(String email) throws MessagingException {
 		String codigo = Base64Utils.encodeToString(email.getBytes());
 		emailService.enviarPedidoDeConfirmacaoDeCadastro(email, codigo);
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = false)
 	public void ativarCadastroPaciente(String codigo) {
 		String email = new String(Base64Utils.decodeFromString(codigo));
 		Usuario usuario = buscarPorEmail(email);
