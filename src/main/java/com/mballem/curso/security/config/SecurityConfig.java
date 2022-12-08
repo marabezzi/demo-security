@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.mballem.curso.security.domain.PerfilTipo;
@@ -33,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		// acessos liberados
 		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
-		.antMatchers("/","/home").permitAll()
+		.antMatchers("/","/home", "/expired").permitAll()
 		.antMatchers("/u/novo/cadastro","/u/cadastro/realizado", "/u/cadastro/paciente/salvar").permitAll()
 		.antMatchers("/u/confirmacao/cadastro").permitAll()
 		.antMatchers("/u/p/**").permitAll()
@@ -77,8 +79,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.sessionManagement()
 			.maximumSessions(1) //apenas uma sessao
-			.maxSessionsPreventsLogin(true)
+			.expiredUrl("/expired")
+			.maxSessionsPreventsLogin(false)   //se true proíbe entrar simultaneamente em dois ou mais dispositivos ao mesmo tempo
 			.sessionRegistry(sessionRegistry());
+		
+		
+		http.sessionManagement()
+			.sessionFixation()
+			.newSession()
+			.sessionAuthenticationStrategy(sessionAuthStrategy());
+		
 	}   
 
 	@Override
@@ -99,5 +109,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		return new ServletListenerRegistrationBean<>( new HttpSessionEventPublisher() );
 	}
 
+	@Bean
+	public SessionAuthenticationStrategy sessionAuthStrategy() {
+		return new RegisterSessionAuthenticationStrategy(sessionRegistry());
+	}
+	
 	
 }
